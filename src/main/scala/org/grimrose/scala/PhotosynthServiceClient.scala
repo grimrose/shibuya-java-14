@@ -1,7 +1,5 @@
 package org.grimrose.scala
 
-import sun.net.www.http.HttpClient
-
 import scala.concurrent.{ ExecutionContext, Future }
 
 class PhotosynthServiceClient(implicit val ctx: ExecutionContext) extends SoapClient {
