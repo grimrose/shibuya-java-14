@@ -1,6 +1,7 @@
 package org.grimrose.scala
 
 import scala.concurrent.{ ExecutionContext, Future }
+import _root_.generated._
 
 class PhotosynthServiceClient(implicit val ctx: ExecutionContext) extends SoapClient {
 
@@ -24,20 +25,21 @@ trait SoapClient extends PhotosynthServiceSoap12Bindings
   with scalaxb.SoapClientsAsync
   with SkinnyHttpClientsAsync
 
+private object SkinnyHttpClientsAsync {
+  val charset = "utf-8"
+  val contentType = s"text/xml; charset=$charset"
+}
+
 trait SkinnyHttpClientsAsync extends scalaxb.HttpClientsAsync {
-  lazy val httpClient = new SkinnyHttpClient {}
+  import skinny.http._
+  import SkinnyHttpClientsAsync._
 
-  trait SkinnyHttpClient extends HttpClient {
-
-    import skinny.http._
-
-    def request(in: String, address: java.net.URI, headers: Map[String, String]): concurrent.Future[String] = {
+  lazy val httpClient = new HttpClient {
+    def request(in: String, address: java.net.URI, headers: Map[String, String]): Future[String] = {
       val req: Request = Request(address.toString)
       headers.foreach { case (k, v) => req.header(k, v) }
-      val contentType = "text/xml; charset=utf-8"
-      req.body(in.getBytes(), contentType)
+      req.body(in.getBytes(charset), contentType)
       HTTP.asyncPost(req).map(_.asString)
     }
   }
-
 }
