@@ -1,6 +1,6 @@
 scalacOptions ++= Seq("-unchecked", "-deprecation", "-feature")
 
-addSbtPlugin("org.scalaxb" % "sbt-scalaxb" % "1.3.0")
+addSbtPlugin("org.scalaxb" % "sbt-scalaxb" % "1.4.0")
 addSbtPlugin("org.scalariform" % "sbt-scalariform" % "1.6.0")
 
 resolvers += Resolver.sonatypeRepo("public")
